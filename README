@@ -1,14 +1,27 @@
 matrixIxirtam
 matrixi checks for synchronisation of several cameras using both OpenHardWare and OpenSoftWare components.
+it is based on displaying a number as a 16 bit matrix (i.e. 4x4 matrix).
+
 * matrix component shows a matrix (i.e. 2D array) representing a counter number.
 * xirtam component reads the number from the recorded images using basic image processing.
 Note: matrix or xirtam component will be derived in several materials (using either differents hardware or library, e.g. CImg.matrix is the matrix component based on CImg library)
 
 components
 * matrix (write matrix)
-** CImg.matrix is the CImg library based matrix component
+** CImg.matrix is the CImg library based matrix component:
+   it display, on a computer screen, a matrix that is representing a number.
+   after a delay set by the user, it increments the number and shows it.
+   several cameras may record the images in time.
+
 * xirtam (read  matrix)
-** CImg.xirtam is the CImg library based xirtam component
+** CImg.xirtam is the CImg library based xirtam component:
+   it process different images to get the number from the matrix.
+   it handles a set of cameras.
+   the calibration procedure asks for the selection of both position and level of the matrix.
+   these are selected by the user throug the GUI for each camera.
+   then simple image processing is made to get numbers.
+   results are displayed on GUI; at the end, a boolean tell if all camera are synchronised or not.
+   note: calibration parameters are saved, so hudge batch can be run without any user request.
 
 external library
 * CImg: The CImg Library - C++ Template Image Processing Toolkit (http://cimg.sourceforge.net)
