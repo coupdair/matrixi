@@ -1,0 +1,19 @@
+matrixIxirtam
+matrixi checks for synchronisation of several cameras using both OpenHardWare and OpenSoftWare components.
+* matrix component shows a matrix (i.e. 2D array) representing a counter number.
+* xirtam component reads the number from the recorded images using basic image processing.
+Note: matrix or xirtam component will be derived in several materials (using either differents hardware or library, e.g. CImg.matrix is the matrix component based on CImg library)
+
+components
+* matrix (write matrix)
+** CImg.matrix is the CImg library based matrix component
+* xirtam (read  matrix)
+** CImg.xirtam is the CImg library based xirtam component
+
+external library
+* CImg: The CImg Library - C++ Template Image Processing Toolkit (http://cimg.sourceforge.net)
+
+external tool
+* doxygen
+* gcc: g++
+
