@@ -1,0 +1,1 @@
+latex matrixIxirtam.tex; latex matrixIxirtam.tex; latex matrixIxirtam.tex; dvips -o -t matrixIxirtam.ps matrixIxirtam.dvi; ps2pdf matrixIxirtam.ps; evince matrixIxirtam.pdf &
