@@ -8,13 +8,18 @@ Note: matrix or xirtam component will be derived in several materials (using eit
 
 components
 * matrix (write matrix)
-** CImg.matrix is the CImg library based matrix component:
+** CImg.matrix is the CImg library based matrix component (i.e. an OpenSoftWare):
    it display, on a computer screen, a matrix that is representing a number.
    after a delay set by the user, it increments the number and shows it.
    several cameras may record the images in time.
+** AVR.matrix is the AVR libC library based matrix component (i.e. an OpenHardWare):
+   it display, on an array of LED, a matrix that is representing a number.
+   after a delay set by the programmer, it increments the number and shows it.
+   several cameras may record the images in time.
+   note: actually use Arduino Mega1280 with LED mapping
 
 * xirtam (read  matrix)
-** CImg.xirtam is the CImg library based xirtam component:
+** CImg.xirtam is the CImg library based xirtam component (i.e. an OpenSoftWare):
    it process different images to get the number from the matrix.
    it handles a set of cameras.
    the calibration procedure asks for the selection of both position and level of the matrix.
@@ -27,6 +32,7 @@ external library
 * CImg: The CImg Library - C++ Template Image Processing Toolkit (http://cimg.sourceforge.net)
 
 external tool
-* doxygen
+* doxygen (http://www.doxygen.org)
 * gcc: g++
+* avr: avr-gcc, avrdude (http://download.savannah.gnu.org/releases/avrdude/)
 
