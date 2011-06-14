@@ -1,0 +1,2 @@
+#SETTING: Arduino Mega1280 portC,portA (straight i.e. no mapping for LED)
+make clean; make ; make upload ; make size
