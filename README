@@ -6,6 +6,19 @@ it is based on displaying a number as a 16 bit matrix (i.e. 4x4 matrix).
 * xirtam component reads the number from the recorded images using basic image processing.
 Note: matrix or xirtam component will be derived in several materials (using either differents hardware or library, e.g. CImg.matrix is the matrix component based on CImg library)
 
+
+matrixIxirtam sketch:
+
+matrix     camera   xirtam
+
+ O 0 O 0
+ 0 0 0 0     >      65 535
+ 0 0 0 0
+ 0 0 0 0
+
+see documentation in matrixi folder.
+
+
 components
 * matrix (write matrix)
 ** CImg.matrix is the CImg library based matrix component (i.e. an OpenSoftWare):
@@ -17,6 +30,9 @@ components
    after a delay set by the programmer, it increments the number and shows it.
    several cameras may record the images in time.
    note: actually use Arduino Mega1280 with LED mapping
+** LED.matrix is the lightning matrix component (i.e. an OpenHardWare):
+   it is a 2D array of small green LED (i.e. 4x4) that is driven actually by AVR.matrix.
+   note: see only photo actually.
 
 * xirtam (read  matrix)
 ** CImg.xirtam is the CImg library based xirtam component (i.e. an OpenSoftWare):
@@ -28,8 +44,10 @@ components
    results are displayed on GUI; at the end, a boolean tell if all camera are synchronised or not.
    note: calibration parameters are saved, so hudge batch can be run without any user request.
 
+
 external library
 * CImg: The CImg Library - C++ Template Image Processing Toolkit (http://cimg.sourceforge.net)
+
 
 external tool
 * doxygen (http://www.doxygen.org)
