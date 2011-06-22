@@ -1,6 +1,6 @@
 MCU = atmega1280
 TARGET_ARCH = -mmcu=$(MCU)
-TARGET = AVR.matrix
+TARGET = main
 CC = avr-gcc
 CPPFLAGS = -mmcu=$(MCU)
 CFLAGS = -Os -g -Wall -I. -DF_CPU=16000000
@@ -26,11 +26,11 @@ $(TARGET).elf: $(OBJ_FILES)
 
 $(TARGET).hex: $(TARGET).elf
 	avr-objcopy -j .text -j .data -O ihex $(TARGET).elf $(TARGET).hex
-	avr-objcopy -j .eeprom --set-section-flags=.eeprom="alloc,load" --change-section-lma .eeprom=0 -O ihex $(TARGET).elf eeprom.hex
+	avr-objcopy -j .eeprom --set-section-flags=.eeprom="alloc,load" --change-section-lma .eeprom=0 -O ihex main.elf eeprom.hex
 
 upload: $(TARGET).hex
-	$(DUDE) $(PGMER) -U flash:w:$(TARGET).hex:i -D
+	$(DUDE) $(PGMER) -U flash:w:main.hex:i -D
 
-size: $(TARGET).elf
-	avr-size --format=avr --mcu=$(MCU) $(TARGET).elf
+size: main.elf
+	avr-size --format=avr --mcu=$(MCU) main.elf
 
