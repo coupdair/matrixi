@@ -6,10 +6,11 @@
 #include <avr/pgmspace.h>
 
 //TTL SETTING: ArduinoMega pin 46,48 = PL3,1
-#define TTLs_PORT PORTL
+//PL1=SYNC, PL3=IN
 #define TTLs_DDR   DDRL
-#define TTL0         PL3
-#define TTL1         PL1
+#define TTLs_PORT PORTL
+#define TTL0         PL1
+#define TTL1         PL3
 
 //EXPOSURE LED SETTING: ArduinoMega pin 47 = PL2
 //use PIN to toggle exposure
@@ -186,8 +187,10 @@ int main(void)
   LED_DDR0=255;//LED.matrix output low
   LED_DDR1=255;//LED.matrix output high
 //initialise port as TTL input
-TTLs_DDR&=~_BV(TTL0);//synchronisation TTL input for exposure 1
-TTLs_DDR&=~_BV(TTL1);//synchronisation TTL input for exposure 2
+//TTLs_DDR&=~_BV(TTL0);//synchronisation TTL input for exposure 1
+//TTLs_DDR&=~_BV(TTL1);//synchronisation TTL input for exposure 2
+TTLs_DDR|=_BV(TTL0);//synchronisation TTL output for exposure 1
+TTLs_DDR|=_BV(TTL1);//synchronisation TTL output for exposure 2
   //initialise port as exposure LED output
   TTLs_DDR|=_BV(EXPO);//exposure LED: ON for exposure 1, OFF for exposure 2
 
@@ -202,7 +205,7 @@ TTLs_DDR&=~_BV(TTL1);//synchronisation TTL input for exposure 2
   _delay_ms(500);
 
 //test LED mapping
-  testAllLED(2,300,map0,map1);
+//  testAllLED(2,300,map0,map1);
 
 //calibration LED.matrix
   calibrationLEDmatrix(map0,map1);
@@ -213,6 +216,8 @@ TTLs_DDR&=~_BV(TTL1);//synchronisation TTL input for exposure 2
   //set exposure LED ON
   TTLs_PORT|=_BV(EXPO);
   value=0;
+int tmp=0;
+int i;
   while(1)
   {
     //split 16 bit number in 2x 8 bit numbers
@@ -225,12 +230,17 @@ TTLs_DDR&=~_BV(TTL1);//synchronisation TTL input for exposure 2
 //! todo wait for external trigger UP, i.e. test digital input pin
 //low=*portInputRegister(TTLs_PORT);
 //low=pgm_read_word(TTLs_PORT);
+if(tmp==0)
+{TTLs_PORT|=_BV(TTL0);TTLs_PORT&=~_BV(TTL1);++tmp;}
+else
+{TTLs_PORT|=_BV(TTL1);TTLs_PORT&=~_BV(TTL0);tmp=0;}
     //LED.matrix set
     LED_PORT0=low;
     LED_PORT1=high;
     //wait for external trigger down
 //! todo wait for external trigger DOWN, i.e. test digital input pin
-    _delay_ms(200);
+//    _delay_ms(200);
+i=0;while(i<12345){++i;++value;};_delay_ms(50);
     //increment
     ++value;
     //toggle exposure LED (OFF/ON)
