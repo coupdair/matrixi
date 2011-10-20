@@ -2,7 +2,7 @@
 #CImg.xirtam: compute numbers from matrixes in images along time
 
 #compile
-g++ -o CImg.xirtam CImg.xirtam.cpp -I ../../CImg -Wall -W -lm -ansi -pedantic -O0 -fno-tree-pre -Dcimg_use_vt100 -I/usr/X11R6/include -Dcimg_use_xshm -Dcimg_use_xrandr -L/usr/X11R6/lib -lpthread -lX11 -lXext -lXrandr && ./CImg.xirtam -h && ./CImg.xirtam -i ../matrix/Matrix_0123.png -c ../matrix/Matrix_-003.png
+g++ -o CImg.xirtam CImg.xirtam.cpp -I ../../CImg -Wall -W -lm -ansi -pedantic -O0 -fno-tree-pre -Dcimg_use_vt100 -I/usr/X11R6/include -Dcimg_use_xshm -Dcimg_use_xrandr -L/usr/X11R6/lib -lpthread -lX11 -lXext -lXrandr && ./CImg.xirtam -h && ./CImg.xirtam -i ../CImg.matrix/Matrix_0123.png -c ../CImg.matrix/Matrix_-003.png
 
 #documentation
 ./changeDoxygenPath.sh
@@ -10,11 +10,13 @@ g++ -o CImg.xirtam CImg.xirtam.cpp -I ../../CImg -Wall -W -lm -ansi -pedantic -O
 
 #run
 ./CImg.xirtam -c calibration.png -i matrix.png
-./CImg.xirtam -i ../matrix/Matrix_0123.png -c ../matrix/Matrix_-003.png
-./CImg.xirtam -i ../matrix/Matrix_0123_r20_dx40dy400.png -c ../matrix/Matrix_-003_r20_dx40dy400.png 
-./CImg.xirtam -i ../matrix/Matrix_0123_perspective.png   -c ../matrix/Matrix_-003_perspective.png 
+./CImg.xirtam -i ../CImg.matrix/Matrix_0123.png -c ../CImg.matrix/Matrix_-003.png
+./CImg.xirtam -i ../CImg.matrix/Matrix_0123_r20_dx40dy400.png -c ../CImg.matrix/Matrix_-003_r20_dx40dy400.png 
+./CImg.xirtam -i ../CImg.matrix/Matrix_0123_perspective.png   -c ../CImg.matrix/Matrix_-003_perspective.png 
 
-ls ../matrix/Matrix_0123.png ../matrix/Matrix_0321.png |./CImg.xirtam -i stdin -c ../matrix/Matrix_-003.png --mean-size 3
+ls ../CImg.matrix/Matrix_0123.png ../CImg.matrix/Matrix_0321.png |./CImg.xirtam -i stdin -c ../CImg.matrix/Matrix_-003.png --mean-size 3
+
+exit
 
 #50 time the same image  V
 c=1; ls ../../../P_SPIV/Matrix_000/Matrix_000_c$c'_'000000_B_*.png | ./CImg.xirtam -i stdin -c ../../../P_SPIV/Matrix_000/Matrix_000_c$c'_'000000_B.png --mean-size 16 -o ../../../P_SPIV/Matrix_000/Matrix_000_c$c'_B_same'.cimg
