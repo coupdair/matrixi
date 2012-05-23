@@ -29,7 +29,7 @@
 //lowest 8 bit part
 #define LED_DDR0   DDRA
 #define LED_PORT0 PORTA
-//LED map of the port
+//LED map of the port (LED.matrix.v0.1.0 and v0.2.3)
   //line 2 and 3: swap PA1 and PA2, i.e. 23 and 24 pin order
   //line 5 and 6: swap PA5 and PB6, i.e. 27 and 28 pin order
   //bit PXN                76543210
@@ -46,7 +46,7 @@
 //highest 8 bit part
 #define LED_DDR1   DDRC
 #define LED_PORT1 PORTC
-//LED map of the port
+//LED map of the port (LED.matrix.v0.2.3)
   //all bit order reversed (e.g. PC7 is first bit)
   //line 2 and 3: swap PC1 and PC2, i.e. 36 and 35 pin order
   //line 5 and 6: swap PC5 and PC6, i.e. 32 and 33 pin order
@@ -199,6 +199,7 @@ int main(void)
   TTLs_DDR|=_BV(TTL0);//synchronisation TTL output for exposure 1
   TTLs_DDR&=~_BV(TTL1);//synchronisation TTL input for exposure 2
 //double exposure
+//! \todo [next] double exposure mode (internal/external: TTL[i] with i=(++i<2)?i:0; )
 //  TTLs_DDR&=~_BV(TTL0);//synchronisation TTL input for exposure 1
   //TTLs_DDR&=~_BV(TTL1);//synchronisation TTL input for exposure 2
 #else
@@ -240,7 +241,7 @@ int main(void)
     high=map8(high,map1);
     //wait for external trigger up
 #ifdef EXTERNAL_TRIGGER
-//! todo . wait for external trigger UP, i.e. test digital input pin (using loop_until_bit_is_set(PIN, bit); )
+//! todo [actual] . wait for external trigger UP, i.e. test digital input pin (using loop_until_bit_is_set(PIN, bit); )
     loop_until_bit_is_set(TTL_PIN,TTL_1);
 #else
     _delay_ms(DELAY_TIME);
@@ -252,7 +253,7 @@ int main(void)
     LED_PORT1=high;
     //wait for external trigger down
 #ifdef EXTERNAL_EXPOSURE
-//! todo . wait for external trigger DOWN, i.e. test digital input pin (using loop_until_bit_is_clear(PIN, bit); )
+//! todo [actual] . wait for external trigger DOWN, i.e. test digital input pin (using loop_until_bit_is_clear(PIN, bit); )
     loop_until_bit_is_clear(TTL_PIN,TTL_1);
 #else
     _delay_ms(EXPOSURE_TIME);
