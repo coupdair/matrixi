@@ -1,13 +1,14 @@
-MCU = atmega1280
+#MCU = atmega1280
+MCU = atmega2560
 TARGET_ARCH = -mmcu=$(MCU)
 TARGET = main
 CC = avr-gcc
 CPPFLAGS = -mmcu=$(MCU)
 CFLAGS = -Os -g -Wall -I. -DF_CPU=16000000
 LDFLAGS = -g -mmcu=$(MCU) -lm -Wl,--gc-sections -Os
-PGMER = -c arduino -b 57600 -P /dev/ttyUSB0
-PGMERISP = -c avrispv2 -P /dev/ttyACM0
-#DUDE = /usr/bin/avrdude -V -p $(MCU)
+#PGMER = -c arduino -b 57600 -P /dev/ttyUSB0
+PGMER = -c stk500v2 -b 115200 -P /dev/ttyACM0
+##DUDE = /usr/bin/avrdude -V -p $(MCU)
 DUDE = ./avrdude-5.10/avrdude -C ./avrdude-5.10/avrdude.conf -p $(MCU)
 
 C_SRCS = $(wildcard *.c)

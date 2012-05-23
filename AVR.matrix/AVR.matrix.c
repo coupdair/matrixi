@@ -45,10 +45,10 @@
   //line 5 and 6: swap PC5 and PC6, i.e. 32 and 33 pin order
   //bit PXN                76543210
 #define LED_MAP1  \
-                         0b00100000, \
                          0b10000000, \
-                         0b01000000, \
+                         0b00100000, \
                          0b00010000, \
+                         0b01000000, \
                                      \
                          0b00000010, \
                          0b00001000, \
@@ -205,7 +205,7 @@ TTLs_DDR|=_BV(TTL1);//synchronisation TTL output for exposure 2
   _delay_ms(500);
 
 //test LED mapping
-//  testAllLED(2,300,map0,map1);
+  testAllLED(2,300,map0,map1);
 
 //calibration LED.matrix
   calibrationLEDmatrix(map0,map1);
@@ -216,8 +216,6 @@ TTLs_DDR|=_BV(TTL1);//synchronisation TTL output for exposure 2
   //set exposure LED ON
   TTLs_PORT|=_BV(EXPO);
   value=0;
-int tmp=0;
-int i;
   while(1)
   {
     //split 16 bit number in 2x 8 bit numbers
@@ -228,19 +226,13 @@ int i;
     high=map8(high,map1);
     //wait for external trigger up
 //! todo wait for external trigger UP, i.e. test digital input pin
-//low=*portInputRegister(TTLs_PORT);
-//low=pgm_read_word(TTLs_PORT);
-if(tmp==0)
-{TTLs_PORT|=_BV(TTL0);TTLs_PORT&=~_BV(TTL1);++tmp;}
-else
-{TTLs_PORT|=_BV(TTL1);TTLs_PORT&=~_BV(TTL0);tmp=0;}
-    //LED.matrix set
+//TTLs_PORT|=_BV(TTL0);TTLs_PORT&=~_BV(TTL1);
+//TTLs_PORT|=_BV(TTL1);TTLs_PORT&=~_BV(TTL0);
     LED_PORT0=low;
     LED_PORT1=high;
     //wait for external trigger down
 //! todo wait for external trigger DOWN, i.e. test digital input pin
-//    _delay_ms(200);
-i=0;while(i<12345){++i;++value;};_delay_ms(50);
+    _delay_ms(200);
     //increment
     ++value;
     //toggle exposure LED (OFF/ON)
