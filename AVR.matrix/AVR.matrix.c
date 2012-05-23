@@ -17,6 +17,13 @@
 #define EXPO         PL2
 #define TTLs_PIN   PINL
 
+#ifndef DELAY_TIME
+#define DELAY_TIME 200
+#endif
+#ifndef EXPOSURE_TIME
+#define EXPOSURE_TIME 50
+#endif
+
 //LED SETTING: ArduinoMega pin 22-37 = PA0-7,PC7-0 (different orders)
 //16 bit = 2x8bit = PORTA and PORTC
 //lowest 8 bit part
@@ -186,11 +193,18 @@ int main(void)
   //initialise port as LED output
   LED_DDR0=255;//LED.matrix output low
   LED_DDR1=255;//LED.matrix output high
-//initialise port as TTL input
-//TTLs_DDR&=~_BV(TTL0);//synchronisation TTL input for exposure 1
-//TTLs_DDR&=~_BV(TTL1);//synchronisation TTL input for exposure 2
-TTLs_DDR|=_BV(TTL0);//synchronisation TTL output for exposure 1
-TTLs_DDR|=_BV(TTL1);//synchronisation TTL output for exposure 2
+  //initialise port as TTL in/output
+#ifdef EXTERNAL_TRIGGER
+//single exposure
+  TTLs_DDR|=_BV(TTL0);//synchronisation TTL output for exposure 1
+  TTLs_DDR&=~_BV(TTL1);//synchronisation TTL input for exposure 2
+//double exposure
+//  TTLs_DDR&=~_BV(TTL0);//synchronisation TTL input for exposure 1
+  //TTLs_DDR&=~_BV(TTL1);//synchronisation TTL input for exposure 2
+#else
+  TTLs_DDR|=_BV(TTL0);//synchronisation TTL output for exposure 1
+  TTLs_DDR|=_BV(TTL1);//synchronisation TTL output for exposure 2
+#endif
   //initialise port as exposure LED output
   TTLs_DDR|=_BV(EXPO);//exposure LED: ON for exposure 1, OFF for exposure 2
 
@@ -205,7 +219,7 @@ TTLs_DDR|=_BV(TTL1);//synchronisation TTL output for exposure 2
   _delay_ms(500);
 
 //test LED mapping
-  testAllLED(2,300,map0,map1);
+//  testAllLED(2,300,map0,map1);
 
 //calibration LED.matrix
   calibrationLEDmatrix(map0,map1);
@@ -225,14 +239,29 @@ TTLs_DDR|=_BV(TTL1);//synchronisation TTL output for exposure 2
     low= map8(low, map0);
     high=map8(high,map1);
     //wait for external trigger up
-//! todo wait for external trigger UP, i.e. test digital input pin
-//TTLs_PORT|=_BV(TTL0);TTLs_PORT&=~_BV(TTL1);
-//TTLs_PORT|=_BV(TTL1);TTLs_PORT&=~_BV(TTL0);
+#ifdef EXTERNAL_TRIGGER
+//! todo . wait for external trigger UP, i.e. test digital input pin (using loop_until_bit_is_set(PIN, bit); )
+    loop_until_bit_is_set(TTL_PIN,TTL_1);
+#else
+    _delay_ms(DELAY_TIME);
+#endif
+    //set SYNC TTL to up
+    TTLs_PORT|=_BV(TTL0);
+    //LED.matrix set ON
     LED_PORT0=low;
     LED_PORT1=high;
     //wait for external trigger down
-//! todo wait for external trigger DOWN, i.e. test digital input pin
-    _delay_ms(200);
+#ifdef EXTERNAL_EXPOSURE
+//! todo . wait for external trigger DOWN, i.e. test digital input pin (using loop_until_bit_is_clear(PIN, bit); )
+    loop_until_bit_is_clear(TTL_PIN,TTL_1);
+#else
+    _delay_ms(EXPOSURE_TIME);
+#endif
+    //SYNC TTL to down
+    TTLs_PORT&=~_BV(TTL0);
+    //LED.matrix set OFF
+    LED_PORT0=0;
+    LED_PORT1=0;
     //increment
     ++value;
     //toggle exposure LED (OFF/ON)
