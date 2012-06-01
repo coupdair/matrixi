@@ -196,8 +196,8 @@ int main(void)
   //initialise port as TTL in/output
 #ifdef EXTERNAL_TRIGGER
 //single exposure
-  TTLs_DDR|=_BV(TTL0);//synchronisation TTL output for exposure 1
-  TTLs_DDR&=~_BV(TTL1);//synchronisation TTL input for exposure 2
+  TTLs_DDR|=_BV(TTL0);//synchronisation TTL output
+  TTLs_DDR&=~_BV(TTL1);//synchronisation TTL input
 //double exposure
 //! \todo [next] double exposure mode (internal/external: TTL[i] with i=(++i<2)?i:0; )
 //  TTLs_DDR&=~_BV(TTL0);//synchronisation TTL input for exposure 1
@@ -242,7 +242,7 @@ int main(void)
     //wait for external trigger up
 #ifdef EXTERNAL_TRIGGER
 //! todo [actual] . wait for external trigger UP, i.e. test digital input pin (using loop_until_bit_is_set(PIN, bit); )
-    loop_until_bit_is_set(TTL_PIN,TTL_1);
+    loop_until_bit_is_set(TTLs_PIN,TTL1);
 #else
     _delay_ms(DELAY_TIME);
 #endif
@@ -254,7 +254,7 @@ int main(void)
     //wait for external trigger down
 #ifdef EXTERNAL_EXPOSURE
 //! todo [actual] . wait for external trigger DOWN, i.e. test digital input pin (using loop_until_bit_is_clear(PIN, bit); )
-    loop_until_bit_is_clear(TTL_PIN,TTL_1);
+    loop_until_bit_is_clear(TTLs_PIN,TTL1);
 #else
     _delay_ms(EXPOSURE_TIME);
 #endif

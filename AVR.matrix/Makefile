@@ -5,6 +5,7 @@ TARGET = main
 CC = avr-gcc
 CPPFLAGS = -mmcu=$(MCU)
 CFLAGS = -Os -g -Wall -I. -DF_CPU=16000000
+#CFLAGS = -Os -g -Wall -I. -DF_CPU=16000000 -DEXTERNAL_TRIGGER
 LDFLAGS = -g -mmcu=$(MCU) -lm -Wl,--gc-sections -Os
 #PGMER = -c arduino -b 57600 -P /dev/ttyUSB0
 PGMER = -c stk500v2 -b 115200 -P /dev/ttyACM0
