@@ -9,13 +9,13 @@
 //PL1=SYNC, PL3=IN
 #define TTLs_DDR   DDRL
 #define TTLs_PORT PORTL
+#define TTLs_PIN   PINL
 #define TTL0         PL1
 #define TTL1         PL3
 
 //EXPOSURE LED SETTING: ArduinoMega pin 47 = PL2
 //use PIN to toggle exposure
 #define EXPO         PL2
-#define TTLs_PIN   PINL
 
 #ifndef DELAY_TIME
 #define DELAY_TIME 200
@@ -248,6 +248,10 @@ int main(void)
 #endif
     //set SYNC TTL to up
     TTLs_PORT|=_BV(TTL0);
+#ifndef EXTERNAL_TRIGGER
+    //set IN TTL to up
+    TTLs_PORT|=_BV(TTL1);
+#endif
     //LED.matrix set ON
     LED_PORT0=low;
     LED_PORT1=high;
@@ -260,6 +264,10 @@ int main(void)
 #endif
     //SYNC TTL to down
     TTLs_PORT&=~_BV(TTL0);
+#ifndef EXTERNAL_TRIGGER
+    //IN TTL to down
+    TTLs_PORT&=~_BV(TTL1);
+#endif
     //LED.matrix set OFF
     LED_PORT0=0;
     LED_PORT1=0;
