@@ -34,7 +34,7 @@ int main(void)
     loop_until_bit_is_set(LED_PIN,AP_10); //wait for PIV synchronization up
     LED_PORT&=~_BV(AP_13);
     LED_PORT|=_BV(AP_12);
-//    _delay_ms(1234);
+    _delay_ms(1234);
     loop_until_bit_is_clear(LED_PIN,AP_10); //wait for PIV synchronization down
     LED_PORT&=~_BV(AP_12);
 //    LED_PORT=0xb00000000;
