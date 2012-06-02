@@ -34,12 +34,13 @@ int main(void)
     loop_until_bit_is_set(LED_PIN,AP_10); //wait for PIV synchronization up
     LED_PORT&=~_BV(AP_13);
     LED_PORT|=_BV(AP_12);
-    //skip \c number TTL
+    //skip \c skip_nb TTL
     loop_until_bit_is_clear(LED_PIN,AP_10); //wait for PIV synchronization down
     for(i=0;i<skip_nb;++i)
     {
-      _delay_us(1);
-      //wait for second TTL
+      //toggle exposure LED (OFF/ON)
+      LED_PIN|=_BV(AP_12);
+      //wait for next TTL
       loop_until_bit_is_set(LED_PIN,AP_10); //wait for PIV synchronization up
       loop_until_bit_is_clear(LED_PIN,AP_10); //wait for PIV synchronization down
     }//skip loop
