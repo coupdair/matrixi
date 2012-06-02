@@ -30,11 +30,15 @@ int main(void)
 //    LED_PORT=255;
     LED_PORT|=_BV(AP_13);
 ///    LED_PORT|=_BV(AP_10);
-    //wait
+    //wait for first TTL
     loop_until_bit_is_set(LED_PIN,AP_10); //wait for PIV synchronization up
     LED_PORT&=~_BV(AP_13);
     LED_PORT|=_BV(AP_12);
-    _delay_ms(1234);
+//skip 1 TTL
+    loop_until_bit_is_clear(LED_PIN,AP_10); //wait for PIV synchronization down
+    _delay_us(1);
+    //wait for second TTL
+    loop_until_bit_is_set(LED_PIN,AP_10); //wait for PIV synchronization up
     loop_until_bit_is_clear(LED_PIN,AP_10); //wait for PIV synchronization down
     LED_PORT&=~_BV(AP_12);
 //    LED_PORT=0xb00000000;
