@@ -23,7 +23,7 @@ int main(void)
 {
   LED_DDR=255;//LED.matrix output
   LED_DDR&=~_BV(AP_10);
-//const char ap=AP_50;
+  char i,skip_nb=5;
   while(1)
   {
 //    LED_PORT=0xb11111111;
@@ -34,12 +34,15 @@ int main(void)
     loop_until_bit_is_set(LED_PIN,AP_10); //wait for PIV synchronization up
     LED_PORT&=~_BV(AP_13);
     LED_PORT|=_BV(AP_12);
-//skip 1 TTL
+    //skip \c number TTL
     loop_until_bit_is_clear(LED_PIN,AP_10); //wait for PIV synchronization down
-    _delay_us(1);
-    //wait for second TTL
-    loop_until_bit_is_set(LED_PIN,AP_10); //wait for PIV synchronization up
-    loop_until_bit_is_clear(LED_PIN,AP_10); //wait for PIV synchronization down
+    for(i=0;i<skip_nb;++i)
+    {
+      _delay_us(1);
+      //wait for second TTL
+      loop_until_bit_is_set(LED_PIN,AP_10); //wait for PIV synchronization up
+      loop_until_bit_is_clear(LED_PIN,AP_10); //wait for PIV synchronization down
+    }//skip loop
     LED_PORT&=~_BV(AP_12);
 //    LED_PORT=0xb00000000;
 //    LED_PORT=0;
