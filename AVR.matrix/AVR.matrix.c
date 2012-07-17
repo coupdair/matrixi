@@ -210,6 +210,7 @@ int main(void)
   TTLs_DDR|=_BV(EXPO);//exposure LED: ON for exposure 1, OFF for exposure 2
 
 //test all LEDs
+#ifndef VALUE
   //ON
   setLEDmatrix8(255,255,map0,map1);
   //wait a while
@@ -226,11 +227,16 @@ int main(void)
   calibrationLEDmatrix(map0,map1);
   //wait a while
   _delay_ms(1500);
+#endif //!VALUE
 
 //increment LED.matrix
   //set exposure LED ON
   TTLs_PORT|=_BV(EXPO);
+#ifdef VALUE
+  value=VALUE;
+#else
   value=0;
+#endif //!VALUE
   while(1)
   {
     //split 16 bit number in 2x 8 bit numbers
@@ -255,6 +261,9 @@ int main(void)
     //LED.matrix set ON
     LED_PORT0=low;
     LED_PORT1=high;
+#ifdef VALUE
+    while(1){}//block value for ever
+#endif //VALUE
     //wait for external trigger down
 #ifdef EXTERNAL_EXPOSURE
 //! todo [actual] . wait for external trigger DOWN, i.e. test digital input pin (using loop_until_bit_is_clear(PIN, bit); )
