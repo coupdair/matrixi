@@ -4,7 +4,7 @@ TARGET_ARCH = -mmcu=$(MCU)
 TARGET = main
 CC = avr-gcc
 CPPFLAGS = -mmcu=$(MCU)
-CFLAGS = -Os -g -Wall -I. -DF_CPU=16000000 -DVALUE=123
+CFLAGS = -Os -g -Wall -I. -DF_CPU=16000000 -DVALUE=123 -DDELAY_TIME=0
 #CFLAGS = -Os -g -Wall -I. -DF_CPU=16000000 -DDELAY_TIME=250
 #CFLAGS = -Os -g -Wall -I. -DF_CPU=16000000 -DEXTERNAL_TRIGGER
 LDFLAGS = -g -mmcu=$(MCU) -lm -Wl,--gc-sections -Os
