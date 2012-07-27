@@ -10,8 +10,8 @@
 #define TTLs_DDR   DDRL
 #define TTLs_PORT PORTL
 #define TTLs_PIN   PINL
-#define TTL0         PL1
-#define TTL1         PL3
+#define TTL0         PL3
+#define TTL1         PL1
 
 //EXPOSURE LED SETTING: ArduinoMega pin 47 = PL2
 //use PIN to toggle exposure
